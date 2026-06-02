@@ -15,7 +15,7 @@
     "aos": "^2.3.4",
     "axios": "^1.7.2",
     "date-fns": "^3.4.0",
-    "framer-motion": "^11.11.9",
+    "framer-motion": "^12.40.0",
     "gray-matter": "^4.0.3",
     "next": "^15.2.4",
     "next-auth": "^4.24.7",
@@ -29,12 +29,16 @@
     "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
+    "@eslint/compat": "^2.1.0",
+    "@eslint/eslintrc": "^3.3.5",
     "@tailwindcss/postcss": "^4.1.2",
     "@types/aos": "^3.0.7",
     "@types/node": "^20",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.1",
     "@types/react-slick": "^0.23.13",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^16.2.7",
     "postcss": "^8",
     "tailwindcss": "^4.1.2",
     "typescript": "^5"

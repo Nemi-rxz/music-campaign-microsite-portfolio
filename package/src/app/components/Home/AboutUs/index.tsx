@@ -18,8 +18,7 @@ const Aboutus = () => {
         if (!res.ok) throw new Error('Failed to fetch')
         const data = await res.json()
         setAbout(data.Aboutdata)
-      } catch (error) {
-        console.error('Error fetching services:', error)
+      } catch {
       } finally {
         setLoading(false)
       }

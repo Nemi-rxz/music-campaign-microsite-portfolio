@@ -48,8 +48,7 @@ const Articles = () => {
         if (!res.ok) throw new Error('Failed to fetch')
         const data = await res.json()
         setArticles(data.ArticlesData)
-      } catch (error) {
-        console.error('Error fetching services:', error)
+      } catch {
       } finally {
         setLoading(false)
       }

@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 const Manage = () => {
   const [plans, setPlans] = useState<any[]>([])
-  const [loading, setLoding] = useState(true)
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -15,10 +15,9 @@ const Manage = () => {
         if (!res.ok) throw new Error('Failed to fetch')
         const data = await res.json()
         setPlans(data.PlansData)
-      } catch (error) {
-        console.error('Error fetching services:', error)
+      } catch {
       } finally {
-        setLoding(false)
+        setLoading(false)
       }
     }
     fetchData()
@@ -126,12 +125,12 @@ const Manage = () => {
                       Start My 15-day Trial
                     </button>
                   </Link>
-                  {/* Map through the features object and render each key-value pair dynamically */}
-                  {Object.entries(items.features).map((value: any, index) => (
+                  {/* Map through the features object and render each value dynamically */}
+                  {Object.values(items.features).map((feature: any, index) => (
                     <p
                       className='text-sm font-medium text-darkgrey mb-3'
                       key={index}>
-                      {value}
+                      {feature}
                     </p>
                   ))}
                 </div>

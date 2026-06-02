@@ -111,8 +111,7 @@ const Testimonial: React.FC = () => {
         if (!res.ok) throw new Error('Failed to fetch')
         const data = await res.json()
         setTestimonials(data.TestimonialsData)
-      } catch (error) {
-        console.error('Error fetching services:', error)
+      } catch {
       } finally {
         setLoading(false)
       }

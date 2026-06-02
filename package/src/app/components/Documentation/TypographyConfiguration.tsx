@@ -9,10 +9,10 @@ export const TypographyConfiguration = () => {
         </p>
         <div className="py-4 px-3 rounded-md bg-dark_grey mt-8">
           <p className="text-sm text-gray-400 flex flex-col gap-2 mb-3">
-            {`import { Montserrat } from "next/font/google";`}
+            {`import { Manrope } from "next/font/google";`}
           </p>
           <p className="text-sm text-gray-400 flex flex-col gap-2">
-            {`const montserrat = Montserrat({ subsets: ["latin"] });`}
+            {`const font = Manrope({ subsets: ["latin"] });`}
           </p>
         </div>
       </div>

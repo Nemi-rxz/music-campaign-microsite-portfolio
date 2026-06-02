@@ -11,7 +11,7 @@ const FAQ = () => {
   return (
     <section
       id='FAQ'
-      className='relative py-1 bg-cover bg-center overflow-hidde dark:bg-darkmode'>
+      className='relative py-1 bg-cover bg-center overflow-hidden dark:bg-darkmode'>
       <div className='container mx-auto max-w-7xl px-4'>
         <div className='relative rounded-2xl py-24 bg-faq-bg bg-no-repeat bg-cover bg-primary'>
           <p className='text-lg font-normal text-white text-center mb-6'>FAQ</p>

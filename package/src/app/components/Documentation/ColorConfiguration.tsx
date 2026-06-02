@@ -8,16 +8,16 @@ export const ColorConfiguration = () => {
             1. Override Colors
           </span>{" "}
           <br />
-          For any change in colors : tailwind.config.ts
+          For any change in colors : src/app/globals.css
         </p>
         <div className="py-4 px-5 rounded-md bg-dark_grey mt-8">
           <p className="text-sm text-black/60 flex flex-col gap-2">
-            <span>primary: "#0066FF",</span>
-            <span>purple: "#1E013A",</span>
-            <span>grey: "#F4F5F6",</span>
-            <span>border: "#DBDBDB",</span>
-            <span>darkmode: "#00224a",</span>
-            <span>deepSlate: "#02398A",</span>
+            <span>--color-primary: "#0066FF",</span>
+            <span>--color-purple: "#1E013A",</span>
+            <span>--color-grey: "#F4F5F6",</span>
+            <span>--color-border: "#DBDBDB",</span>
+            <span>--color-darkmode: "#00224a",</span>
+            <span>--color-deep-slate: "#02398A",</span>
           </p>
         </div>
       </div>
@@ -27,12 +27,12 @@ export const ColorConfiguration = () => {
             2. Override Theme Colors
           </span>{" "}
           <br />
-          For change , go to : tailwind.config.ts
+          For change , go to : src/app/globals.css
         </p>
         <div className="py-4 px-5 rounded-md bg-dark_grey mt-8">
           <p className="text-sm text-black/60 flex flex-col gap-2">
-            <span>primary: "#0066FF",</span>
-            <span>darkmode: "#00224a",</span>
+            <span>--color-primary: "#0066FF",</span>
+            <span>--color-darkmode: "#00224a",</span>
           </p>
         </div>
       </div>
