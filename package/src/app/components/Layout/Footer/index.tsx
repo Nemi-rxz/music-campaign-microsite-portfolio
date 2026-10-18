@@ -6,23 +6,15 @@ const footerSections = [
     links: [
       { label: 'Artist showcase', href: '#artists' },
       { label: 'Fan voting', href: '#vote' },
-      { label: 'Featured stories', href: '#stories' },
+      { label: 'Live poll results', href: '#vote' },
     ],
   },
   {
-    title: 'Strategy',
+    title: 'How it works',
     links: [
-      { label: 'Objectives', href: '#case-study' },
-      { label: 'Audience', href: '#case-study' },
-      { label: 'User flow', href: '#case-study' },
-    ],
-  },
-  {
-    title: 'Engage',
-    links: [
-      { label: 'Join newsletter', href: '#join' },
-      { label: 'Share campaign', href: '#vote' },
-      { label: 'Live countdown', href: '#artists' },
+      { label: 'Browse artists', href: '#artists' },
+      { label: 'Cast your vote', href: '#vote' },
+      { label: 'Earn XP & badges', href: '#vote' },
     ],
   },
 ]
@@ -38,7 +30,8 @@ const Footer = () => {
               A premium campaign microsite concept for discovering the next generation of Afrobeats talent.
             </h4>
             <p className='mt-5 max-w-xl text-base leading-8 text-slate-400'>
-              Built as a commercial-quality case study experience with clear audience strategy, fan engagement loops, and culturally relevant storytelling.
+              A fan-powered voting experience where you back your favorite artists, earn XP and
+              climb the live leaderboard.
             </p>
             <div className='mt-6 flex flex-wrap gap-3 text-sm text-slate-300'>
               <span className='rounded-full border border-white/10 bg-white/5 px-4 py-2'>
@@ -53,7 +46,7 @@ const Footer = () => {
               </div>
             </div>
 
-          <div className='grid gap-8 sm:grid-cols-3'>
+          <div className='grid gap-8 sm:grid-cols-2'>
             {footerSections.map((section) => (
               <div key={section.title}>
                 <p className='text-sm font-semibold uppercase tracking-[0.18em] text-white/65'>
@@ -78,14 +71,11 @@ const Footer = () => {
         <div className='mt-14 flex flex-col gap-4 border-t border-white/10 pt-6 text-sm text-slate-500 md:flex-row md:items-center md:justify-between'>
           <p>© 2026 Future Sound Afrobeats. Fictional campaign concept for portfolio-style presentation.</p>
           <div className='flex flex-wrap gap-5'>
-            <Link href='#case-study' className='transition hover:text-white'>
-              Campaign case study
-            </Link>
-            <Link href='#join' className='transition hover:text-white'>
-              Newsletter signup
+            <Link href='#artists' className='transition hover:text-white'>
+              Artists
             </Link>
             <Link href='#vote' className='transition hover:text-white'>
-              Community vote
+              Live poll
             </Link>
           </div>
         </div>

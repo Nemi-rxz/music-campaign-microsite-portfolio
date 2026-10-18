@@ -109,3 +109,12 @@ html {
   background-repeat: no-repeat, no-repeat;
   background-position: 90% 100%, 2% 18%;
 }
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

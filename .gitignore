@@ -1,0 +1,7 @@
+# local dev artifacts
+*.log
+/package-lock.json
+
+# dependencies / build (real app lives in package/)
+node_modules/
+.next/

@@ -2,21 +2,21 @@ import { Metadata } from 'next'
 import FutureSoundMicrosite from '@/app/components/Home/FutureSoundMicrosite'
 
 export const metadata: Metadata = {
-  title: 'Future Sound Afrobeats | Premium Artist Discovery Campaign',
+  title: 'Music Campaign | Discover, Stream & Own',
   description:
-    'A premium digital campaign microsite for Future Sound Afrobeats, designed to drive artist discovery, fan engagement, voting, social sharing, and live event participation.',
+    'An interactive and gamified music platform where you can discover tracks, follow artists, earn points, unlock badges, and own the music you love.',
   keywords: [
-    'Future Sound Afrobeats',
-    'Afrobeats campaign',
-    'music microsite',
+    'music streaming',
     'artist discovery',
-    'fan engagement',
-    'music case study',
+    'music platform',
+    'gamified music',
+    'buy music',
+    'music community',
   ],
   openGraph: {
-    title: 'Future Sound Afrobeats',
+    title: 'Music Campaign',
     description:
-      'Explore the next generation of Afrobeats talent through previews, voting, live showcase countdowns, featured stories, and premium campaign storytelling.',
+      'Discover amazing music, earn rewards, and join a community of music lovers. Interactive, fun, and self-explanatory.',
     type: 'website',
   },
 }

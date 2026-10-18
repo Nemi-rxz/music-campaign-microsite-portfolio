@@ -5,10 +5,7 @@ import Logo from './Logo'
 
 const navigation = [
   { label: 'Artists', href: '#artists' },
-  { label: 'Vote', href: '#vote' },
-  { label: 'Stories', href: '#stories' },
-  { label: 'Case Study', href: '#case-study' },
-  { label: 'Newsletter', href: '#join' },
+  { label: 'Live Poll', href: '#vote' },
 ]
 
 const Header: React.FC = () => {
@@ -62,13 +59,8 @@ const Header: React.FC = () => {
           <div className='flex items-center gap-3'>
             <Link
               href='#vote'
-              className='hidden rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10 lg:inline-flex'>
-              Fan Vote
-            </Link>
-            <Link
-              href='#join'
               className='hidden rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-fuchsia-200 lg:inline-flex'>
-              Join Campaign
+              Fan Vote
             </Link>
             <button
               onClick={() => setNavbarOpen(!navbarOpen)}
@@ -109,16 +101,16 @@ const Header: React.FC = () => {
             ))}
             <div className='mt-4 grid gap-3'>
               <Link
-                href='#vote'
+                href='#artists'
                 className='inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white'
                 onClick={() => setNavbarOpen(false)}>
-                Vote For Artists
+                Browse Artists
               </Link>
               <Link
-                href='#join'
+                href='#vote'
                 className='inline-flex items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-950'
                 onClick={() => setNavbarOpen(false)}>
-                Get Campaign Updates
+                Fan Vote
               </Link>
             </div>
           </nav>
