@@ -4,7 +4,6 @@ import Link from 'next/link'
 import Logo from './Logo'
 
 const navigation = [
-  { label: 'Artists', href: '#artists' },
   { label: 'Live Poll', href: '#vote' },
 ]
 
@@ -100,12 +99,6 @@ const Header: React.FC = () => {
               </Link>
             ))}
             <div className='mt-4 grid gap-3'>
-              <Link
-                href='#artists'
-                className='inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white'
-                onClick={() => setNavbarOpen(false)}>
-                Browse Artists
-              </Link>
               <Link
                 href='#vote'
                 className='inline-flex items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-950'

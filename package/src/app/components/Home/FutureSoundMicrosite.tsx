@@ -212,7 +212,7 @@ const FutureSoundMicrosite = () => {
           </p>
           <div className='mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center'>
             <a
-              href='#artists'
+              href='#vote'
               className='inline-flex items-center justify-center rounded-full bg-fuchsia-600 px-8 py-4 text-sm font-semibold text-white transition hover:bg-fuchsia-700'>
               Vote now
             </a>
@@ -251,62 +251,6 @@ const FutureSoundMicrosite = () => {
                   })
                 : 'Syncing…'}
             </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Artists */}
-      <section id='artists' className='border-b border-white/10 py-20'>
-        <div className='container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-          <div className='mb-10 text-center'>
-            <h2 className='text-4xl font-bold text-white sm:text-5xl'>The artists</h2>
-            <p className='mt-4 text-lg text-gray-300'>
-              One vote per artist. Earn {XP_PER_VOTE} XP each time you back a star.
-            </p>
-          </div>
-
-          <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-4'>
-            {ARTISTS.map((artist, i) => {
-              const hasVoted = hydrated && votedFor.has(artist.id)
-              const votes = votesByArtist[artist.id] ?? 0
-              return (
-                <div
-                  key={artist.id}
-                  className='flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/5 transition hover:border-fuchsia-500/50'>
-                  <div
-                    className={`relative flex aspect-square items-center justify-center bg-gradient-to-br ${GRADIENTS[i % GRADIENTS.length]}`}>
-                    <span className='text-5xl font-black text-white/90 drop-shadow'>
-                      {getInitials(artist.name)}
-                    </span>
-                    <span className='absolute left-3 top-3 rounded-full bg-black/40 px-3 py-1 text-xs font-semibold text-white backdrop-blur'>
-                      {artist.genre}
-                    </span>
-                  </div>
-                  <div className='flex flex-1 flex-col p-5'>
-                    <div className='flex items-center justify-between'>
-                      <h3 className='text-lg font-semibold text-white'>{artist.name}</h3>
-                      <span className='text-xs text-gray-400'>{artist.followers}</span>
-                    </div>
-                    <p className='mt-2 flex-1 text-sm leading-6 text-gray-400'>{artist.blurb}</p>
-                    <div className='mt-4 flex items-center justify-between'>
-                      <span className='text-sm text-gray-400'>
-                        {totalVotes ? votes.toLocaleString() : '—'} votes
-                      </span>
-                      <button
-                        onClick={() => handleVote(artist.id)}
-                        disabled={hasVoted || isVoting === artist.id}
-                        className={`rounded-full px-5 py-2 text-sm font-semibold transition ${
-                          hasVoted
-                            ? 'cursor-not-allowed bg-white/10 text-gray-400'
-                            : 'bg-fuchsia-600 text-white hover:bg-fuchsia-700 disabled:opacity-60'
-                        }`}>
-                        {hasVoted ? '✓ Voted' : isVoting === artist.id ? 'Voting…' : 'Vote'}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
           </div>
         </div>
       </section>
@@ -394,14 +338,14 @@ const FutureSoundMicrosite = () => {
         </div>
       </section>
 
-      {/* Decorative gallery + badges */}
+      {/* Decorative album gallery (aesthetics only) */}
       <section className='py-20'>
         <div className='container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8'>
           <div className='mb-8 text-center'>
             <h2 className='text-3xl font-bold text-white sm:text-4xl'>Sounds of the movement</h2>
             <p className='mt-3 text-gray-400'>A mood board from the campaign.</p>
           </div>
-          <div className='mb-16 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6'>
+          <div className='grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6'>
             {ALBUM_SHOTS.map((shot) => (
               <div
                 key={shot.id}
@@ -417,34 +361,6 @@ const FutureSoundMicrosite = () => {
                 </span>
               </div>
             ))}
-          </div>
-
-          <div className='text-center'>
-            <h3 className='text-2xl font-bold text-white'>Your badges</h3>
-            <p className='mt-2 text-gray-400'>
-              {unlockedBadges.length} of {BADGES.length} unlocked — vote to earn more.
-            </p>
-          </div>
-          <div className='mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
-            {BADGES.map((badge) => {
-              const unlocked = votedFor.size >= badge.threshold
-              return (
-                <div
-                  key={badge.id}
-                  className={`rounded-2xl border p-5 text-center transition ${
-                    unlocked
-                      ? 'border-fuchsia-500/50 bg-fuchsia-500/10'
-                      : 'border-white/10 bg-white/5 opacity-50'
-                  }`}>
-                  <div className='text-4xl'>{badge.icon}</div>
-                  <h4 className='mt-2 font-semibold text-white'>{badge.name}</h4>
-                  <p className='mt-1 text-xs text-gray-400'>{badge.description}</p>
-                  {unlocked && (
-                    <div className='mt-2 text-xs font-semibold text-fuchsia-300'>✓ Unlocked</div>
-                  )}
-                </div>
-              )
-            })}
           </div>
         </div>
       </section>
