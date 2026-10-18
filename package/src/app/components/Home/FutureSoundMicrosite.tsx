@@ -195,7 +195,8 @@ const FutureSoundMicrosite = () => {
 
       {/* Hero */}
       <section className='relative overflow-hidden border-b border-white/10 pt-32 pb-20'>
-        <div className='absolute inset-0 bg-gradient-to-br from-fuchsia-900/20 via-transparent to-cyan-900/20' />
+        <div className='absolute inset-0 bg-cover bg-center bg-no-repeat' style={{ backgroundImage: "url('/images/hero/concert-header.jpg')" }} />
+        <div className='absolute inset-0 bg-gradient-to-br from-fuchsia-900/80 via-black/70 to-cyan-900/80' />
         <div className='absolute left-10 top-20 h-96 w-96 rounded-full bg-fuchsia-600/20 blur-3xl' />
         <div className='absolute right-10 bottom-20 h-96 w-96 rounded-full bg-cyan-600/20 blur-3xl' />
         <div className='container relative mx-auto max-w-5xl px-4 text-center sm:px-6 lg:px-8'>
