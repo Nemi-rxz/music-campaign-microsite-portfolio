@@ -18,6 +18,9 @@ export const metadata: Metadata = {
   },
   description:
     'Future Sound Afrobeats is a premium digital campaign microsite concept focused on artist discovery, fan engagement, and community participation.',
+  icons: {
+    icon: '/favicon.ico?v=2',
+  },
 }
 
 export default function RootLayout({
