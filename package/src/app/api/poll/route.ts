@@ -9,13 +9,14 @@ export const dynamic = 'force-dynamic'
 const DATA_DIR = path.join(process.cwd(), 'data')
 const DATA_FILE = path.join(DATA_DIR, 'votes.json')
 const DAYS_TO_EVENT = 25
+const BLOB_KEY = 'poll-store.json'
 
 type PollStore = {
   eventDate: string
   votes: Record<string, number>
 }
 
-type Backend = 'kv' | 'file' | 'memory'
+type Backend = 'kv' | 'blob' | 'file' | 'memory'
 
 function seedVotes(): Record<string, number> {
   const votes: Record<string, number> = {}
@@ -31,7 +32,16 @@ function defaultStore(): PollStore {
   return { eventDate: defaultEventDate(), votes: seedVotes() }
 }
 
-/* ---------------- Vercel KV (preferred in production) ---------------- */
+function normalizeStore(parsed: Partial<PollStore> | null | undefined): PollStore {
+  const votes: Record<string, number> = {}
+  for (const artist of ARTISTS) {
+    const value = parsed?.votes?.[artist.id]
+    votes[artist.id] = typeof value === 'number' ? value : artist.seedVotes
+  }
+  return { eventDate: parsed?.eventDate || defaultEventDate(), votes }
+}
+
+/* ---------------- Vercel KV (preferred if present) ---------------- */
 
 function hasKv(): boolean {
   return Boolean(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN)
@@ -49,7 +59,6 @@ async function kvRead(): Promise<PollStore> {
     await kv.hset('poll:votes', seedVotes())
   }
   const votes = (await kv.hgetall<Record<string, number>>('poll:votes')) || {}
-  // Ensure every known artist has a numeric entry.
   for (const artist of ARTISTS) {
     if (typeof votes[artist.id] !== 'number') votes[artist.id] = artist.seedVotes
   }
@@ -62,6 +71,60 @@ async function kvVote(artistId: string): Promise<PollStore> {
   return kvRead()
 }
 
+/* ---------------- Vercel Blob (shared + persistent in production) ---------------- */
+
+function blobToken(): string | undefined {
+  return process.env.POLL_READ_WRITE_TOKEN
+}
+
+function hasBlob(): boolean {
+  return Boolean(blobToken())
+}
+
+async function blobWrite(store: PollStore) {
+  const { put } = await import('@vercel/blob')
+  await put(BLOB_KEY, JSON.stringify(store), {
+    access: 'public',
+    addRandomSuffix: false,
+    allowOverwrite: true,
+    token: blobToken()!,
+  })
+}
+
+async function blobRead(): Promise<PollStore> {
+  const { head } = await import('@vercel/blob')
+  const token = blobToken()!
+  let url: string | null = null
+  try {
+    const blob = await head(BLOB_KEY, { token })
+    url = blob.url
+  } catch {
+    url = null
+  }
+
+  if (!url) {
+    const store = defaultStore()
+    await blobWrite(store)
+    return store
+  }
+
+  // Cache-bust so overwrite reads return the latest tally.
+  const res = await fetch(`${url}?t=${Date.now()}`, { cache: 'no-store' })
+  if (!res.ok) {
+    const store = defaultStore()
+    await blobWrite(store)
+    return store
+  }
+  return normalizeStore((await res.json()) as Partial<PollStore>)
+}
+
+async function blobVote(artistId: string): Promise<PollStore> {
+  const store = await blobRead()
+  store.votes[artistId] = (store.votes[artistId] ?? 0) + 1
+  await blobWrite(store)
+  return store
+}
+
 /* ---------------- File store (local dev fallback) ---------------- */
 
 function fileRead(): PollStore {
@@ -71,12 +134,7 @@ function fileRead(): PollStore {
       fileWrite(store)
       return store
     }
-    const parsed = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8')) as PollStore
-    for (const artist of ARTISTS) {
-      if (typeof parsed.votes[artist.id] !== 'number') parsed.votes[artist.id] = artist.seedVotes
-    }
-    if (!parsed.eventDate) parsed.eventDate = defaultEventDate()
-    return parsed
+    return normalizeStore(JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8')) as PollStore)
   } catch {
     return defaultStore()
   }
@@ -121,6 +179,7 @@ function memoryVote(artistId: string): PollStore {
 
 async function chooseBackend(): Promise<Backend> {
   if (hasKv()) return 'kv'
+  if (hasBlob()) return 'blob'
   if (fileWritable()) return 'file'
   return 'memory'
 }
@@ -129,10 +188,25 @@ async function readStore(backend: Backend): Promise<PollStore> {
   switch (backend) {
     case 'kv':
       return kvRead()
+    case 'blob':
+      return blobRead()
     case 'file':
       return fileRead()
     default:
       return memoryRead()
+  }
+}
+
+async function voteStore(backend: Backend, artistId: string): Promise<PollStore> {
+  switch (backend) {
+    case 'kv':
+      return kvVote(artistId)
+    case 'blob':
+      return blobVote(artistId)
+    case 'file':
+      return fileVote(artistId)
+    default:
+      return memoryVote(artistId)
   }
 }
 
@@ -148,29 +222,20 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  let artistId: string | null = null
   try {
     const body = await request.json()
-    const artistId = typeof body?.artistId === 'string' ? body.artistId : null
+    artistId = typeof body?.artistId === 'string' ? body.artistId : null
     if (!artistId || !ARTISTS.some((a) => a.id === artistId)) {
       return NextResponse.json({ error: 'Invalid artist' }, { status: 400 })
     }
 
     const backend = await chooseBackend()
-    let store: PollStore
-    if (backend === 'kv') store = await kvVote(artistId)
-    else if (backend === 'file') store = fileVote(artistId)
-    else store = memoryVote(artistId)
-
+    const store = await voteStore(backend, artistId)
     return NextResponse.json({ ...store, store: backend })
   } catch (err) {
     console.error('poll POST failed, falling back to memory', err)
-    try {
-      const body = await request.clone().json()
-      const artistId = typeof body?.artistId === 'string' ? body.artistId : null
-      if (artistId) memoryVote(artistId)
-    } catch {
-      /* ignore */
-    }
+    if (artistId) memoryVote(artistId)
     return NextResponse.json({ ...memoryRead(), store: 'memory' })
   }
 }
